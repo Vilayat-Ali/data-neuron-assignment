@@ -1,26 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
-
-import { Todo } from "../../interfaces/todo";
+import type { RootState } from "../store";
 
 interface InitialState {
-  selectedTodo: Todo | undefined;
+  selectedTodo: string;
 }
 
 const initialState: InitialState = {
-  selectedTodo: undefined,
+  selectedTodo: "",
 };
 
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    set: (state, action: PayloadAction<Todo>) => {
+    set: (state, action: PayloadAction<string>) => {
       state.selectedTodo = action.payload;
     },
     reset: (state) => {
-      state.selectedTodo = undefined;
+      state.selectedTodo = "";
     },
   },
 });

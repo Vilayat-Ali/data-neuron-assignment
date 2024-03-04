@@ -3,7 +3,7 @@ import {
   Flex
 } from '@chakra-ui/react';
 
-import Profile from './component/components/Profile';
+import Stats from './component/components/Stats';
 import Form from './component/components/Form';
 import TodoTable from './component/components/TodoTable';
 
@@ -29,7 +29,7 @@ const App = () => {
           base: 'center',
           md: 'baseline'
         }}>
-          <Profile />
+          <Stats />
 
           <Form />
       </Flex>

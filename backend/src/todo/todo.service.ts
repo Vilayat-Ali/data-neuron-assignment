@@ -4,7 +4,6 @@ import { UpdateTodoDto } from "./dto/update-todo.dto";
 import { Todo } from "./models/todo.model";
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
-import { Count } from "../count/models/count.model";
 import { CountService } from "src/count/count.service";
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import todoReducer from "./slice/app.slice";
+import todoReducer from "./slice/todo.slice";
 
 import { todoApi } from "./api/todo.api";
 import { setupListeners } from "@reduxjs/toolkit/query";

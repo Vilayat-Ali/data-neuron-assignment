@@ -11,12 +11,17 @@ import {
   Center,
   CardBody,
   Card,
+  useToast,
   Text,
 } from '@chakra-ui/react';
 import { Todo } from '../../interfaces/todo';
 import { useGetAllTodosQuery } from '../../app/api/todo.api';
+import { useAppDispatch } from '../../app/hooks';
+import { set } from '../../app/slice/todo.slice';
 
 const TodoTable: React.FC = () => {
+  const toast = useToast();
+  const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState<number>(1);
   // we can expand the filter functionality by adding pageLimit Dispatch action but we are omitting it because it is out
   // of the scope of this assessment project
@@ -41,6 +46,17 @@ const TodoTable: React.FC = () => {
     if (currentPage === 1) return;
     setCurrentPage((prevPage) => prevPage - 1);
   };
+
+  const handleTodoSelection = (id: string) => {
+    dispatch(
+      set(id)
+    );
+    toast({
+      description: 'Todo selected successfully!',
+      status: 'success',
+      isClosable: true
+    })
+  }
 
   useEffect(() => {
     refetch()
@@ -70,7 +86,7 @@ const TodoTable: React.FC = () => {
             </Thead>
             <Tbody>
               {data?.todos[0].todos.map((todo: Todo) => (
-                <Tr key={todo._id}>
+                <Tr key={todo._id} cursor='pointer' _hover={{background: 'black', color: 'white'}} onClick={() => handleTodoSelection(todo._id)}>
                   <Td>{todo.title}</Td>
                   <Td>{todo.description}</Td>
                   <Td>{todo.isCompleted ? 'YES' : 'NO'}</Td>

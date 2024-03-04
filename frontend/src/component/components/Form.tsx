@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Card, CardBody } from '@chakra-ui/react';
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Input, Card, CardBody, ButtonGroup, useToast } from '@chakra-ui/react';
 import { useFormik } from 'formik';
+import useToggle from '../../hooks/useToggle';
 import * as Yup from 'yup';
-import { useCreateTodoMutation } from '../../app/api/todo.api';
+import { useCreateTodoMutation, useUpdateTodoMutation } from '../../app/api/todo.api';
+import { useAppSelector } from '../../app/hooks';
 
 interface TodoFormValues {
   title: string;
@@ -10,6 +12,9 @@ interface TodoFormValues {
 }
 
 const TodoForm: React.FC = () => {
+  const toast = useToast();
+  const selectedTodo = useAppSelector((state) => state.todo.selectedTodo);
+  const [isCreateFormOpen, toggleForm] = useToggle(true);
   const initialValues: TodoFormValues = { title: '', description: '' };
 
   const validationSchema = Yup.object().shape({
@@ -18,13 +23,50 @@ const TodoForm: React.FC = () => {
   });
 
   const [createTodo] = useCreateTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
+
+  const handleMarkAsComplete = async () => {
+    try {
+      await updateTodo({
+        id: selectedTodo,
+        updatedFields: {
+          isCompleted: true
+        }
+      });
+      toast({
+              description: "Selected Todo is marked as completed!",
+              status: 'info',
+              isClosable: true
+            })
+    } catch(err: any) {
+      toast({
+              description: err?.message || "Error",
+              status: 'error',
+              isClosable: true
+            })
+    }
+  }
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const data = await createTodo(values);
+        if(isCreateFormOpen) {
+          await createTodo(values);
+        } else {
+          if(selectedTodo === "") {
+            toast({
+              description: 'No Todo is selected',
+              status: 'error',
+              isClosable: true
+            })
+          }
+          await updateTodo({
+            id: selectedTodo,
+            updatedFields: values
+          });
+        }
       resetForm();
       } catch(err: any) {
         console.error(err)
@@ -40,7 +82,7 @@ const TodoForm: React.FC = () => {
       <CardBody>
         <Box as="form" onSubmit={formik.handleSubmit}>
           <FormControl id="title" isInvalid={!!formik.errors.title && formik.touched.title}>
-            <FormLabel>Create a TODO</FormLabel>
+            <FormLabel>{isCreateFormOpen ? 'Create' : 'Update'} a TODO</FormLabel>
             <Input
               type="text"
               placeholder="Enter title"
@@ -56,9 +98,22 @@ const TodoForm: React.FC = () => {
               {...formik.getFieldProps('description')}
             />
           </FormControl>
+          <ButtonGroup gap={1}>
           <Button mt={4} colorScheme="teal" type="submit" isLoading={formik.isSubmitting}>
-            Add Todo
+            {isCreateFormOpen ? "Add Todo" : "Update Todo"}
           </Button>
+            {
+              !isCreateFormOpen ? (
+                <Button mt={4} colorScheme="teal" onClick={() => handleMarkAsComplete()}>
+                  Mark as Done
+                </Button>
+              ) : (
+                <Button mt={4} colorScheme="teal" onClick={toggleForm}>
+                  Update
+                </Button>
+              )
+            }
+          </ButtonGroup>
         </Box>
       </CardBody>
     </Card>

@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Todo } from "../../interfaces/todo";
 
-// 🔍 Define an interface for paginated options
 interface PaginatedOptions {
   page: number;
   limit: number;

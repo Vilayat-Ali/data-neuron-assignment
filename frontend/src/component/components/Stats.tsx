@@ -1,7 +1,7 @@
 import { Badge, Box, Card, CardBody, Flex, Text } from '@chakra-ui/react';
 import { useGetCountQuery } from '../../app/api/todo.api';
 
-const Profile = () => {
+const Stats = () => {
   const { data, isLoading, isError } = useGetCountQuery();
 
   if (isLoading) {
@@ -18,8 +18,8 @@ const Profile = () => {
       <CardBody>
         {
           !isError && data ? (
-          <Box maxW="md" borderWidth="1px" borderRadius="lg" overflow="hidden">
-          <Box p="6" fontSize={{ base: '4vw', md: '2vw' }}>
+          <Box borderRadius="lg" overflow="hidden">
+          <Box p="4" fontSize={{ base: '4vw', md: '2vw' }}>
             <Flex alignItems="baseline">
               <Badge borderRadius="full" px="2" colorScheme="teal">
                 Total Add Operations
@@ -58,4 +58,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Stats;
