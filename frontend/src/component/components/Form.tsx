@@ -38,7 +38,7 @@ const TodoForm: React.FC = () => {
               status: 'info',
               isClosable: true
             })
-    } catch(err: any) {
+    } catch(err: unknown) {
       toast({
               description: err?.message || "Error",
               status: 'error',
@@ -68,7 +68,7 @@ const TodoForm: React.FC = () => {
           });
         }
       resetForm();
-      } catch(err: any) {
+      } catch(err: unknown) {
         console.error(err)
       }
     },

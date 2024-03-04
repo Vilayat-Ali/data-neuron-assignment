@@ -1,3 +1,3 @@
 export class GetCountDto {
-  fieldName: "ADD" | "UPDATE" | "DELETE";
+  fieldName: 'ADD' | 'UPDATE' | 'DELETE';
 }

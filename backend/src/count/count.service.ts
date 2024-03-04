@@ -1,13 +1,12 @@
-import { Injectable } from "@nestjs/common";
-import { GetCountDto } from "./dto/get-count.dto";
-import { InjectModel } from "@nestjs/mongoose";
-import { Count } from "./models/count.model";
-import { Model } from "mongoose";
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Count } from './models/count.model';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CountService {
   constructor(
-    @InjectModel(Count.name) private readonly countModel: Model<Count>
+    @InjectModel(Count.name) private readonly countModel: Model<Count>,
   ) {}
 
   public async seedCollection() {
@@ -15,7 +14,7 @@ export class CountService {
       const existingDoc = await this.countModel.find();
 
       if (existingDoc.length !== 0) {
-        console.log("Collection already exists: Omitting seeding process");
+        console.log('Collection already exists: Omitting seeding process');
         return;
       }
 
@@ -25,7 +24,7 @@ export class CountService {
         DELETE: 0,
       });
 
-      console.log("Database seeding completed!");
+      console.log('Database seeding completed!');
     } catch (err: any) {
       console.error(err);
       process.exit(1);

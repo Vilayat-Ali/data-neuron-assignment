@@ -1,22 +1,22 @@
-import { Injectable } from "@nestjs/common";
-import { CreateTodoDto } from "./dto/create-todo.dto";
-import { UpdateTodoDto } from "./dto/update-todo.dto";
-import { Todo } from "./models/todo.model";
-import { Model } from "mongoose";
-import { InjectModel } from "@nestjs/mongoose";
-import { CountService } from "src/count/count.service";
+import { Injectable } from '@nestjs/common';
+import { CreateTodoDto } from './dto/create-todo.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
+import { Todo } from './models/todo.model';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { CountService } from 'src/count/count.service';
 
 @Injectable()
 export class TodoService {
   constructor(
     @InjectModel(Todo.name) private todoModel: Model<Todo>,
-    private readonly countService: CountService
+    private readonly countService: CountService,
   ) {}
 
   create(createTodoDto: CreateTodoDto) {
     return Promise.all([
       this.todoModel.create(createTodoDto),
-      this.countService.updateCount("ADD"),
+      this.countService.updateCount('ADD'),
     ]);
   }
 
@@ -52,19 +52,19 @@ export class TodoService {
             },
             {
               $addFields: {
-                id: { $toString: "$_id" },
+                id: { $toString: '$_id' },
               },
             },
           ],
         },
       },
       {
-        $unwind: "$totalCount",
+        $unwind: '$totalCount',
       },
       {
         $project: {
-          totalCount: "$totalCount.totalCount",
-          todos: "$paginatedData",
+          totalCount: '$totalCount.totalCount',
+          todos: '$paginatedData',
         },
       },
     ]);
@@ -77,14 +77,14 @@ export class TodoService {
   update(id: string, updateTodoDto: UpdateTodoDto) {
     return Promise.all([
       this.todoModel.findByIdAndUpdate(id, updateTodoDto),
-      this.countService.updateCount("UPDATE"),
+      this.countService.updateCount('UPDATE'),
     ]);
   }
 
   remove(id: string) {
     return Promise.all([
       this.todoModel.findByIdAndDelete(id),
-      this.countService.updateCount("DELETE"),
+      this.countService.updateCount('DELETE'),
     ]);
   }
 }

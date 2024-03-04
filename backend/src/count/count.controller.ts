@@ -1,7 +1,7 @@
-import { Controller, Get, Res } from "@nestjs/common";
-import { CountService } from "./count.service";
+import { Controller, Get, Res } from '@nestjs/common';
+import { CountService } from './count.service';
 
-@Controller("count")
+@Controller('count')
 export class CountController {
   constructor(private readonly countService: CountService) {}
 
@@ -13,7 +13,7 @@ export class CountController {
     } catch (err: any) {
       return res
         .status(500)
-        .json({ message: err?.message || "Internal Error" });
+        .json({ message: err?.message || 'Internal Error' });
     }
   }
 }

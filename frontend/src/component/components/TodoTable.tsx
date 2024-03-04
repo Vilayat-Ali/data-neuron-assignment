@@ -25,7 +25,7 @@ const TodoTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   // we can expand the filter functionality by adding pageLimit Dispatch action but we are omitting it because it is out
   // of the scope of this assessment project
-  const [pageLimit, _] = useState<number>(5);
+  const [pageLimit] = useState<number>(5);
 
   // data refetch logic
   const {data, isSuccess, refetch} = useGetAllTodosQuery({
@@ -35,7 +35,7 @@ const TodoTable: React.FC = () => {
 
   // it is an expensive computation so why not memoise it? It will only update once the value is actually change here,
   // it will not change until and unless count of todos change
-  const maxPageCount = useMemo(() => Math.ceil(data?.todos[0].totalCount / pageLimit), [pageLimit, data]);
+  const maxPageCount = useMemo(() => Math.ceil((data?.todos[0].totalCount || 0) / pageLimit), [pageLimit, data]);
 
   const handleNextPage = () => {
     if (currentPage === maxPageCount) return;
@@ -90,7 +90,7 @@ const TodoTable: React.FC = () => {
                   <Td>{todo.title}</Td>
                   <Td>{todo.description}</Td>
                   <Td>{todo.isCompleted ? 'YES' : 'NO'}</Td>
-                  <Td>{Date(todo.createdAt)}</Td>
+                  <Td>{new Date(Number(todo.createdAt)).toUTCString()}</Td>
                 </Tr>
               ))}
             </Tbody>
