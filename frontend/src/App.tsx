@@ -1,34 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  Box,
+  Flex
+} from '@chakra-ui/react';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Profile from './component/components/Profile';
+import Form from './component/components/Form';
+import TodoTable from './component/components/TodoTable';
 
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Box width="100vw" height="100vh" overflow='hidden' paddingX={{
+      base: '4%',
+      md: '5%'
+    }} paddingY={{
+      base: '2%',
+      md: '3%'
+    }} bgColor="gray">
+      <Flex 
+        direction={{
+          base: 'column',
+          md: 'row'
+        }} 
+        justifyContent={{
+          base: 'space-around',
+          md: 'space-between'
+        }} 
+        alignItems={{
+          base: 'center',
+          md: 'baseline'
+        }}>
+          <Profile />
+
+          <Form />
+      </Flex>
+      <TodoTable />
+    </Box>
   )
 }
 

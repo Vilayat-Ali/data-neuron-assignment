@@ -1,15 +1,15 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import helmet from 'helmet';
-import * as compression from 'compression';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import helmet from "helmet";
+import * as compression from "compression";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix("api");
 
   app.enableCors({
-    origin: '*',
+    origin: "*",
   });
 
   app.use(compression());
