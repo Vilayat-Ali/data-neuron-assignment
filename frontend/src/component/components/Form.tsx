@@ -75,10 +75,7 @@ const TodoForm: React.FC = () => {
   });
 
   return (
-    <Card width={{
-      base: '95%',
-      md: '48%'
-    }}>
+    <Card width='100%' height='100%' >
       <CardBody>
         <Box as="form" onSubmit={formik.handleSubmit}>
           <FormControl id="title" isInvalid={!!formik.errors.title && formik.touched.title}>

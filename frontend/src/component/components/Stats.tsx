@@ -9,12 +9,7 @@ const Stats = () => {
   }
 
   return (
-    <Card
-      width={{
-        base: '90%',
-        md: '48%',
-      }}
-    >
+    <Card width='100%' height='100%' >
       <CardBody>
         {
           !isError && data ? (

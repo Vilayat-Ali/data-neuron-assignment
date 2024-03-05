@@ -64,13 +64,7 @@ const TodoTable: React.FC = () => {
   }, [currentPage, pageLimit]);
 
   return (
-    <Card width={{
-      base: '90%',
-      md: '100%'
-    }} marginY={{
-        base: '5vw',
-        md: '2vw'
-    }} >
+    <Card width='100%' height='100%' >
       <CardBody>
     <Box>
       {isSuccess && data && data?.todos && data?.todos.length > 0 && data?.todos[0].todos.length > 0 ? (
